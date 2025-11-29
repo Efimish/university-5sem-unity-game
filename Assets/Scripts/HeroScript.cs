@@ -1,10 +1,12 @@
 using UnityEngine;
 
-public class Anonimus : MonoBehaviour
+public class Anonimus : Creature
 {
     private float moveSpeed =3f;
     private int lives=5;
     private float jumpForce=0.5f;
+
+    public static Anonimus Instance {get;set;}
 
 
     //настройка прыжка
@@ -25,6 +27,8 @@ public class Anonimus : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sprite=GetComponentInChildren<SpriteRenderer>();
+        Instance=this;  
+
     }
 
 
@@ -50,6 +54,21 @@ public class Anonimus : MonoBehaviour
         }
         
         
+    }
+
+    public override void GetDamage()
+    {
+        lives-=1;
+        Debug.Log(lives);
+        if (lives <= 0)
+        {
+            Die();
+        }
+    }
+
+    public override void Die()
+    {
+        Destroy(this.gameObject);
     }
 
     // private void FixedUpdate()

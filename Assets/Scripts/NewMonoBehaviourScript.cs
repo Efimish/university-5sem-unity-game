@@ -4,9 +4,14 @@ public class Anonimus : MonoBehaviour
 {
     private float moveSpeed =3f;
     private int lives=5;
-    private float jumpForce=1f;
+    private float jumpForce=0.5f;
 
-    private bool isGrounded=false;
+
+    //настройка прыжка
+    public bool isGrounded=false;
+    public LayerMask groundLayer;
+
+    public Transform groundCheck;
 
     private float vInput;
     private float hInput;
@@ -39,27 +44,29 @@ public class Anonimus : MonoBehaviour
         {
             Run();
         }
-        if (Input.GetButton("Jump")&& isGrounded)
+        if (CheckGround() && Input.GetButton("Jump"))
         {
             Jump();
         }
+        
+        
     }
 
-    private void FixedUpdate()
-    {
-        CheckGround();
-    }
+    // private void FixedUpdate()
+    // {
+    //     CheckGround();
+    // }
 
     private void Jump()
     {
+
         rb.AddForce(transform.up*jumpForce,ForceMode2D.Impulse);
     }
 
-    private void CheckGround()
-    {
-        Collider2D[] collider=Physics2D.OverlapCircleAll(transform.position, 0.3f);
-        isGrounded=collider.Length>1;
-    }
+    private bool CheckGround() 
+    {  
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    }  
 
 
 

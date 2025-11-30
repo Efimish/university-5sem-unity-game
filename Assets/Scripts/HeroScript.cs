@@ -44,16 +44,10 @@ public class Anonimus : Creature
 
     private void Update()
     {
-        if (Input.GetButton("Horizontal"))
+        if (Input.anyKeyDown)
         {
             Run();
-        }
-        if (CheckGround() && Input.GetButton("Jump"))
-        {
-            Jump();
-        }
-        
-        
+        }        
     }
 
     public override void GetDamage()

@@ -44,10 +44,16 @@ public class Anonimus : Creature
 
     private void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.GetButton("Horizontal"))
         {
             Run();
-        }        
+        }
+        if (Input.GetButton("Jump")&&CheckGround())
+        {
+
+            Jump();
+
+        }      
     }
 
     public override void GetDamage()
@@ -65,10 +71,6 @@ public class Anonimus : Creature
         Destroy(this.gameObject);
     }
 
-    // private void FixedUpdate()
-    // {
-    //     CheckGround();
-    // }
 
     private void Jump()
     {
@@ -80,7 +82,4 @@ public class Anonimus : Creature
     {  
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }  
-
-
-
 }

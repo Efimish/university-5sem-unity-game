@@ -1,23 +1,22 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class MainMenuScript : MonoBehaviour
 {
-    private LevelMenu lvm;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Update()
+    {
+        if (Input.anyKeyDown)
+        {
+            OpenLevelsList();
+        }
+    }
+    public void PlayCurrentLevel()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OpenLevelsList()
     {
-
-        if (Input.GetButton("Horizontal"))
-        {
-            
-        }
-        
+        SceneManager.LoadScene(1);
     }
 }

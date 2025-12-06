@@ -20,21 +20,34 @@ public class Anonimus : Creature
 
 
     private Rigidbody2D rb;
+    private Animator anim;
     private SpriteRenderer sprite;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim=GetComponentInChildren<Animator>();
         sprite=GetComponentInChildren<SpriteRenderer>();
         Instance=this;  
 
+    }
+
+    public enum States
+    {
+        idle,
+        run,
+        jump
     }
 
 
 
     private void Run()
     {
+        if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
+        {
+            State=States.run;
+        }
         Vector3 dir= transform.right*Input.GetAxis("Horizontal");
 
         transform.position=Vector3.MoveTowards(transform.position, transform.position+dir,moveSpeed*Time.deltaTime);
@@ -44,6 +57,11 @@ public class Anonimus : Creature
 
     private void Update()
     {
+
+        if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
+        {
+            State=States.idle;
+        }
         if (Input.GetButton("Horizontal"))
         {
             Run();
@@ -78,8 +96,23 @@ public class Anonimus : Creature
         rb.AddForce(transform.up*jumpForce,ForceMode2D.Impulse);
     }
 
+    private States State
+    {
+        get {
+            return (States)anim.GetInteger("state");
+            }
+        set
+        {
+            anim.SetInteger("state",(int)value);
+        }
+    }
+
     private bool CheckGround() 
     {  
+        if (!Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
+        {
+            State=States.jump;
+        }
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }  
 }

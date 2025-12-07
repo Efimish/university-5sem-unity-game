@@ -4,13 +4,15 @@ public class Anonimus : Creature
 {
     private float moveSpeed =3f;
     private int lives=5;
-    private float jumpForce=0.5f;
+    private float jumpForce=5f;
 
     public static Anonimus Instance {get;set;}
 
 
     //настройка прыжка
     public bool isGrounded=false;
+
+    private bool doubleJump=true;
     public LayerMask groundLayer;
 
     public Transform groundCheck;
@@ -66,18 +68,32 @@ public class Anonimus : Creature
         {
             Run();
         }
-        if (Input.GetButton("Jump")&&CheckGround())
+        //обычный прыжок
+        if (Input.GetKeyDown(KeyCode.Space)&&CheckGround())
         {
-
             Jump();
+            //rb.AddForce(transform.up*jumpForce,ForceMode2D.Impulse);
+            doubleJump=true;
+            
+        }
+        else if(Input.GetKeyDown(KeyCode.Space)&&doubleJump)
+        {
+            //Debug.Log("yes");
+            //rb.AddForce(transform.up*10,ForceMode2D.Impulse);
+            Jump();
+            doubleJump=false;
+        }
 
-        }      
+        // if (!Input.GetButton("Jump")&&!CheckGround()&&!singleJump)
+        // {
+        //     doubleJump=true;
+        // }
     }
 
     public override void GetDamage()
     {
         lives-=1;
-        Debug.Log(lives);
+        
         if (lives <= 0)
         {
             Die();
@@ -92,7 +108,6 @@ public class Anonimus : Creature
 
     private void Jump()
     {
-
         rb.AddForce(transform.up*jumpForce,ForceMode2D.Impulse);
     }
 

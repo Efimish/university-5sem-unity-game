@@ -20,7 +20,7 @@ public class CameraScript : MonoBehaviour
     {
 
         pos=player.position;
-        // Debug.Log(pos);
+
         pos.z=-5f;
         pos.y+=6f;
         transform.position=Vector3.Lerp(transform.position,pos,0.05f);

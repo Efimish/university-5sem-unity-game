@@ -9,6 +9,14 @@ public class DroidScript : Creature
     private Vector3 dir;
     private SpriteRenderer sprite;
 
+    public int fireKD;
+    private int fire;
+
+    //стрельба
+    public GameObject Bullet;
+
+    public Transform BulletPosition;
+
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -31,6 +39,12 @@ public class DroidScript : Creature
             timer=0;
             sprite.flipX=!sprite.flipX;
         }
+        if (fire==fireKD)
+        {
+            Instantiate(Bullet, BulletPosition);
+            fire=0;
+        }
+        fire+=1;
 
     }
 

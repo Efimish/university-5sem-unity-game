@@ -43,6 +43,11 @@ public class Anonimus : Creature
     }
 
 
+    //стрельба
+    public GameObject Bullet;
+
+    public Transform BulletPosition;
+
 
     private void Run()
     {
@@ -78,16 +83,17 @@ public class Anonimus : Creature
         }
         else if(Input.GetKeyDown(KeyCode.Space)&&doubleJump)
         {
-            //Debug.Log("yes");
-            //rb.AddForce(transform.up*10,ForceMode2D.Impulse);
+
             Jump();
             doubleJump=false;
         }
 
-        // if (!Input.GetButton("Jump")&&!CheckGround()&&!singleJump)
-        // {
-        //     doubleJump=true;
-        // }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Instantiate(Bullet, BulletPosition);
+        }
+        
+
     }
 
     public override void GetDamage()

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2285840892438917234}
   - component: {fileID: 5800173158116838792}
   - component: {fileID: 4689239079620642070}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,8 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef458d84e7f898e148465cafe34b6c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletScript
-  speed: 0.1
+  speed: 15
   rb: {fileID: 0}
+  lifetime: 5
 --- !u!50 &4689239079620642070
 Rigidbody2D:
   serializedVersion: 5
@@ -103,7 +104,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5696519373703911531}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -132,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1770709773730115263}
   - component: {fileID: 5611137989448715384}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -38,10 +38,13 @@ public class DroidScript : Creature
             dir=dir*-1f;
             timer=0;
             sprite.flipX=!sprite.flipX;
+            //dir=transform;
         }
         if (fire==fireKD)
         {
-            Instantiate(Bullet, BulletPosition);
+            GameObject bulletObj = Instantiate(Bullet, BulletPosition.position, Quaternion.identity);
+            BulletScript bullet = bulletObj.GetComponent<BulletScript>();
+            bullet.SetDirection(dir);
             fire=0;
         }
         fire+=1;

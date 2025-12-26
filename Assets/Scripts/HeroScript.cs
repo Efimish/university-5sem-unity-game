@@ -7,6 +7,8 @@ public class Anonimus : Creature
     private Vector3 dir; 
     private float jumpForce = 5f;
 
+    private bool isAttacking = false;
+
     public int ShoutTimerKD = 1;
 
     public int ShoutTimer=0;
@@ -43,7 +45,8 @@ public class Anonimus : Creature
     {
         idle,
         run,
-        jump
+        jump,
+        katana_atack
     }
 
     private void Run()
@@ -69,6 +72,7 @@ public class Anonimus : Creature
 
     private void Update()
     {
+        if (isAttacking) return;
         
         if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
         {
@@ -112,11 +116,14 @@ public class Anonimus : Creature
             
             GameObject bulletObj = Instantiate(Bullet, BulletPosition.position, Quaternion.identity);
             BulletScript bullet = bulletObj.GetComponent<BulletScript>();
-            
-            
             bullet.SetDirection(fireDirection);
         }
         ShoutTimer+=1;
+
+        if (Input.GetMouseButtonDown(0) && CheckGround())
+            {
+                KatanaAttack();
+            }
     }
 
     public override void GetDamage()
@@ -160,5 +167,20 @@ public class Anonimus : Creature
             State = States.jump;
         }
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    }
+
+    private void KatanaAttack()
+    {
+        isAttacking = true;
+        State = States.katana_atack;
+        // Можно добавить небольшую остановку персонажа при атаке:
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+    }
+
+    // Этот метод мы вызовем через событие в самой анимации!
+    public void OnAttackEnded()
+    {
+        isAttacking = false;
+        State = States.idle; // Возвращаемся в покой
     }
 }

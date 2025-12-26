@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class DroidScript : Creature
 {
-    private float moveSpeed=1.5f;
+    [SerializeField] private int hp = 3; // Здоровье дроида
+    private float moveSpeed = 1.5f;
 
     private int timer;
     public int timerKD;
@@ -12,49 +13,72 @@ public class DroidScript : Creature
     public int fireKD;
     private int fire;
 
-    //стрельба
+    // стрельба
     public GameObject Bullet;
-
     public Transform BulletPosition;
-
 
     private Rigidbody2D rb;
     private Animator anim;
+
     void Start()
     {
-        dir=transform.right;
+        dir = transform.right;
         rb = GetComponent<Rigidbody2D>();
-        anim=GetComponentInChildren<Animator>();
-        sprite=GetComponentInChildren<SpriteRenderer>();  
+        anim = GetComponentInChildren<Animator>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Move();
-        timer+=1;
-        if (timer == timerKD)
+        
+        // Таймер разворота
+        timer += 1;
+        if (timer >= timerKD) // Используем >= на всякий случай
         {
-            dir=dir*-1f;
-            timer=0;
-            sprite.flipX=!sprite.flipX;
-            //dir=transform;
+            dir = dir * -1f;
+            timer = 0;
+            sprite.flipX = !sprite.flipX;
         }
-        if (fire==fireKD)
+
+        // Таймер стрельбы
+        if (fire >= fireKD)
         {
             GameObject bulletObj = Instantiate(Bullet, BulletPosition.position, Quaternion.identity);
             BulletScript bullet = bulletObj.GetComponent<BulletScript>();
+            
+            // Передаем текущее направление движения (dir) как направление пули
             bullet.SetDirection(dir);
-            fire=0;
+            fire = 0;
         }
-        fire+=1;
-
+        fire += 1;
     }
 
     private void Move()
     {
-        transform.position=Vector3.MoveTowards(transform.position, transform.position+dir,moveSpeed*Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, moveSpeed * Time.deltaTime);
+    }
 
-        //sprite.flipX=dir.x<0.0f;
+    // --- РЕАЛИЗАЦИЯ УРОНА ---
+
+    public override void GetDamage()
+    {
+        hp -= 1; // Уменьшаем здоровье
+        Debug.Log("Дроид получил урон! Осталось HP: " + hp);
+
+        // Можно запустить анимацию получения урона, если она есть
+        // anim.SetTrigger("takeDamage"); 
+
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+
+    public override void Die()
+    {
+        Debug.Log("Дроид уничтожен!");
+        // Здесь можно спавнить эффект взрыва перед удалением
+        Destroy(gameObject);
     }
 }

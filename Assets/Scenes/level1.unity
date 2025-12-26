@@ -623,7 +623,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 241647164}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1381,7 +1381,7 @@ GameObject:
   - component: {fileID: 901613341}
   - component: {fileID: 901613340}
   - component: {fileID: 901613343}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1470,13 +1470,14 @@ Transform:
   m_GameObject: {fileID: 901613339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.669, y: -8.143, z: 0}
+  m_LocalPosition: {x: -0.65, y: -8.143, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2031010553}
   - {fileID: 241647164}
   - {fileID: 969064537}
+  - {fileID: 2131688647}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &901613343
@@ -1491,6 +1492,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb9949dd0b70cd60f9ffd0b9982bdf93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Anonimus
+  ShoutTimerKD: 1
+  ShoutTimer: 0
   isGrounded: 0
   groundLayer:
     serializedVersion: 2
@@ -1586,7 +1589,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 969064537}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1602,7 +1605,7 @@ Transform:
   m_GameObject: {fileID: 969064536}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.03, y: 5.26, z: 0}
+  m_LocalPosition: {x: 0.13, y: 5.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2677,7 +2680,8 @@ GameObject:
   - component: {fileID: 2031010553}
   - component: {fileID: 2031010554}
   - component: {fileID: 2031010555}
-  m_Layer: 0
+  - component: {fileID: 2031010556}
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2779,6 +2783,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2031010556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2031010552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54cfb2aa4c7b4d40d89979d7c8a7d725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnimationMessage
 --- !u!4 &2058199090 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1364644764448507934, guid: 4cc39691650186247becd50ebcc38b42, type: 3}
@@ -2967,6 +2983,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cc39691650186247becd50ebcc38b42, type: 3}
+--- !u!1 &2131688646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2131688647}
+  m_Layer: 7
+  m_Name: AtackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2131688647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2131688646}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.75, y: 5.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 901613342}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2133456718
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3111,11 +3158,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 105605320510309990, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.057
+      value: 5.26
       objectReference: {fileID: 0}
     - target: {fileID: 105605320510309990, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.86
+      value: -2.84
       objectReference: {fileID: 0}
     - target: {fileID: 105605320510309990, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3150,20 +3197,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 406291934259040926, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 5696519373703911531, guid: 7e7acacc9683a7669820cae2cb2d6d15, type: 3}
+    - target: {fileID: 406291934259040926, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
       propertyPath: fireKD
       value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1920246237385554743, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2532108274181794463, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
       propertyPath: m_Name
       value: Droid0
       objectReference: {fileID: 0}
+    - target: {fileID: 2532108274181794463, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5004043668247247992, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9136535068378088978, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.29
+      value: -0.19
       objectReference: {fileID: 0}
     - target: {fileID: 9136535068378088978, guid: f4b08f55924158f5ab13d9cb102121c1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.05
+      value: -0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

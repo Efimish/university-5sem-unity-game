@@ -4,11 +4,12 @@ public class Anonimus : Creature
 {
     private float moveSpeed = 3f;
     private int lives = 5;
-
-    // dir используется только для движения, поэтому она может быть локальной в Run, 
-    // но оставляем ее здесь, так как она используется в Run()
     private Vector3 dir; 
     private float jumpForce = 5f;
+
+    public int ShoutTimerKD = 1;
+
+    public int ShoutTimer=0;
 
     public static Anonimus Instance { get; set; }
 
@@ -47,20 +48,20 @@ public class Anonimus : Creature
 
     private void Run()
     {
-        // Логика состояния бега, когда игрок на земле
+        
         if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
         {
             State = States.run;
         }
 
-        // Вычисляем направление движения
+        
         dir = transform.right * Input.GetAxis("Horizontal");
 
-        // Движение
+        
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, moveSpeed * Time.deltaTime);
 
-        // Отзеркаливание спрайта: если dir.x < 0.0f, спрайт смотрит влево (flipX = true)
-        if (dir.x != 0) // Проверяем, чтобы избежать ошибок, если dir.x = 0
+        
+        if (dir.x != 0) 
         {
             sprite.flipX = dir.x < 0.0f;
         }
@@ -68,7 +69,7 @@ public class Anonimus : Creature
 
     private void Update()
     {
-        // Проверка на землю для перехода в состояние Idle
+        
         if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
         {
             State = States.idle;
@@ -79,42 +80,43 @@ public class Anonimus : Creature
             Run();
         }
 
-        // Обычный прыжок
+        
         if (Input.GetKeyDown(KeyCode.Space) && CheckGround())
         {
             Jump();
             doubleJump = true;
         }
-        // Двойной прыжок
+        
         else if (Input.GetKeyDown(KeyCode.Space) && doubleJump)
         {
             Jump();
             doubleJump = false;
         }
 
-        // --- ЛОГИКА СТРЕЛЬБЫ ---
-        if (Input.GetMouseButtonDown(1))
+        
+        if (Input.GetMouseButtonDown(1)&&(ShoutTimer > ShoutTimerKD))
         {
-            // Определяем направление выстрела на основе отзеркаливания спрайта
+            ShoutTimer=0;
             Vector2 fireDirection;
             
             if (sprite.flipX)
             {
-                // Если спрайт отзеркален, значит игрок смотрит влево
-                fireDirection = Vector2.left; // (-1, 0)
+                
+                fireDirection = Vector2.left; 
             }
             else
             {
-                // Если спрайт не отзеркален, значит игрок смотрит вправо
-                fireDirection = Vector2.right; // (1, 0)
+                
+                fireDirection = Vector2.right; 
             }
             
             GameObject bulletObj = Instantiate(Bullet, BulletPosition.position, Quaternion.identity);
             BulletScript bullet = bulletObj.GetComponent<BulletScript>();
             
-            // Передаем правильное направление пуле
+            
             bullet.SetDirection(fireDirection);
         }
+        ShoutTimer+=1;
     }
 
     public override void GetDamage()
@@ -134,7 +136,7 @@ public class Anonimus : Creature
 
     private void Jump()
     {
-        // Обнуляем вертикальную скорость перед прыжком, чтобы прыжки были последовательными
+        
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f); 
         rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
     }

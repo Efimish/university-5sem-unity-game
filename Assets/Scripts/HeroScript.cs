@@ -3,7 +3,7 @@ using UnityEngine;
 public class Anonimus : Creature
 {
     private float moveSpeed = 3f;
-    private int lives = 5;
+    private int lives = 2;
     private Vector3 dir; 
     private float jumpForce = 5f;
 

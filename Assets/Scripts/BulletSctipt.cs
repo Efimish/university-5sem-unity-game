@@ -8,7 +8,7 @@ public class BulletScript : MonoBehaviour
     public Rigidbody2D rb;
     public float lifetime = 2f; 
 
-    void Awake() // Используем Awake, чтобы подготовить RB сразу
+    void Awake() 
     {
         rb = GetComponent<Rigidbody2D>();
     }
@@ -19,7 +19,7 @@ public class BulletScript : MonoBehaviour
         
         rb.linearVelocity = dir.normalized * speed; 
 
-        // Разворачиваем саму пулю (визуально)
+        
         if (dir.x < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
@@ -37,7 +37,7 @@ public class BulletScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        // 1. Проверяем столкновение с другой пулей
+        
         if (other.GetComponent<BulletScript>() != null)
         {
             Destroy(other.gameObject); 
@@ -45,20 +45,19 @@ public class BulletScript : MonoBehaviour
             return; 
         }
 
-        // 2. Пытаемся получить компонент Creature (игрок или враг)
+        
         Creature victim = other.GetComponent<Creature>();
 
         if (victim != null)
         {
-            // Наносим урон
+            
             victim.GetDamage();
-            // Уничтожаем пулю после попадания
+            
             Destroy(gameObject);
             return;
         }
 
-        // 3. Столкновение со стенами (если у них нет скрипта Creature)
-        // Убедитесь, что слои настроены так, чтобы пуля не билась об "пустоту"
+        
         if (!other.isTrigger) 
         {
             Destroy(gameObject);

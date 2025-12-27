@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DroidScript : Creature
 {
-    [SerializeField] private int hp = 3; // Здоровье дроида
+    [SerializeField] private int hp = 3; 
     private float moveSpeed = 1.5f;
 
     private int timer;
@@ -13,7 +13,7 @@ public class DroidScript : Creature
     public int fireKD;
     private int fire;
 
-    // стрельба
+    
     public GameObject Bullet;
     public Transform BulletPosition;
 
@@ -32,22 +32,22 @@ public class DroidScript : Creature
     {
         Move();
         
-        // Таймер разворота
+        
         timer += 1;
-        if (timer >= timerKD) // Используем >= на всякий случай
+        if (timer >= timerKD) 
         {
             dir = dir * -1f;
             timer = 0;
             sprite.flipX = !sprite.flipX;
         }
 
-        // Таймер стрельбы
+        
         if (fire >= fireKD)
         {
             GameObject bulletObj = Instantiate(Bullet, BulletPosition.position, Quaternion.identity);
             BulletScript bullet = bulletObj.GetComponent<BulletScript>();
             
-            // Передаем текущее направление движения (dir) как направление пули
+            
             bullet.SetDirection(dir);
             fire = 0;
         }
@@ -59,15 +59,14 @@ public class DroidScript : Creature
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, moveSpeed * Time.deltaTime);
     }
 
-    // --- РЕАЛИЗАЦИЯ УРОНА ---
+    
 
     public override void GetDamage()
     {
-        hp -= 1; // Уменьшаем здоровье
+        hp -= 1; 
         Debug.Log("Дроид получил урон! Осталось HP: " + hp);
 
-        // Можно запустить анимацию получения урона, если она есть
-        // anim.SetTrigger("takeDamage"); 
+   
 
         if (hp <= 0)
         {
@@ -78,7 +77,7 @@ public class DroidScript : Creature
     public override void Die()
     {
         Debug.Log("Дроид уничтожен!");
-        // Здесь можно спавнить эффект взрыва перед удалением
+        
         Destroy(gameObject);
     }
 }

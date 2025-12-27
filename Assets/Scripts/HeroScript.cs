@@ -1,20 +1,21 @@
 using UnityEngine;
-
+using TMPro;
 public class Anonimus : Creature
 {
     private float moveSpeed = 3f;
-    private int lives = 2;
+    public int lives = 3;
+
+    public TextMeshProUGUI playHPText;
     private Vector3 dir; 
     private float jumpForce = 5f;
 
     private bool isAttacking = false;
 
-    // --- НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ АТАКИ ---
-    public Transform attackPoint;      // Пустой объект перед игроком (центр удара)
-    public float attackRange = 0.5f;   // Радиус удара
-    public LayerMask enemyLayers;      // Слой, на котором находятся враги
-    public int attackDamage = 1;       // Урон от катаны
-    // ----------------------------------
+    
+    public Transform attackPoint;      
+    public float attackRange = 0.5f;   
+    public LayerMask enemyLayers;      
+    public int attackDamage = 1;       
 
     public int ShoutTimerKD = 1;
     public int ShoutTimer = 0;
@@ -63,8 +64,7 @@ public class Anonimus : Creature
         {
             sprite.flipX = dir.x < 0.0f;
             
-            // РАЗВОРОТ ТОЧКИ АТАКИ
-            // Чтобы точка удара всегда была перед лицом, меняем её позицию
+            
             if (attackPoint != null)
             {
                 float posX = Mathf.Abs(attackPoint.localPosition.x);
@@ -75,6 +75,13 @@ public class Anonimus : Creature
 
     private void Update()
     {
+
+        //проверка
+        playHPText.text=""+lives;
+
+
+
+
         if (isAttacking) return;
         
         if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
@@ -121,17 +128,16 @@ public class Anonimus : Creature
         State = States.katana_atack;
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
 
-        // ЛОГИКА НАНЕСЕНИЯ УРОНА
-        // Создаем невидимый круг и собираем всех, кто попал в LayerMask enemyLayers
+        
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            // Проверяем, есть ли у врага скрипт, наследуемый от Creature (как и игрок)
+            
             Creature enemyScript = enemy.GetComponent<Creature>();
             if (enemyScript != null)
             {
-                enemyScript.GetDamage(); // Наносим урон
+                enemyScript.GetDamage();
                 Debug.Log("Попал по: " + enemy.name);
             }
         }
@@ -143,20 +149,20 @@ public class Anonimus : Creature
         State = States.idle;
     }
 
-    // ВИЗУАЛИЗАЦИЯ В РЕДАКТОРЕ
-    // Рисует красный круг в Unity, чтобы было удобно настроить радиус атаки
-    private void OnDrawGizmosSelected()
+        private void OnDrawGizmosSelected()
     {
         if (attackPoint == null) return;
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
-    // --- ОСТАЛЬНЫЕ МЕТОДЫ (Jump, GetDamage и т.д.) БЕЗ ИЗМЕНЕНИЙ ---
     public override void GetDamage()
     {
         lives -= 1;
-        if (lives <= 0) Die();
+        if (lives <= 0) {
+            playHPText.text="Вы погибли, борясь за свободу";
+            Die();
+            };
     }
 
     public override void Die() { Destroy(gameObject); }
